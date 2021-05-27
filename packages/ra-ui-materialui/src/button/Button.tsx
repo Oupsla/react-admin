@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FC, ReactElement, SyntheticEvent, ReactNode } from 'react';
 import PropTypes from 'prop-types';
+import MuiLoadingButton from '@material-ui/lab/LoadingButton';
 import {
-    Button as MuiButton,
     Tooltip,
     IconButton,
     useMediaQuery,
@@ -38,6 +38,7 @@ const Button: FC<ButtonProps> = props => {
         disabled,
         label,
         size,
+        loading,
         ...rest
     } = props;
     const translate = useTranslate();
@@ -70,12 +71,13 @@ const Button: FC<ButtonProps> = props => {
             </IconButton>
         )
     ) : (
-        <MuiButton
+        <MuiLoadingButton
             className={classnames(classes.button, className)}
             color={color}
             size={size}
             aria-label={label ? translate(label, { _: label }) : undefined}
             disabled={disabled}
+            loading={loading}
             {...restProps}
         >
             {alignIcon === 'left' &&
@@ -98,7 +100,7 @@ const Button: FC<ButtonProps> = props => {
                 React.cloneElement(children, {
                     className: classes[`${size}Icon`],
                 })}
-        </MuiButton>
+        </MuiLoadingButton>
     );
 };
 
@@ -153,6 +155,7 @@ interface Props {
     record?: Record;
     resource?: string;
     undoable?: boolean;
+    loading?: boolean;
 }
 
 export type ButtonProps = Props & MuiButtonProps;
@@ -183,6 +186,7 @@ Button.propTypes = {
     disabled: PropTypes.bool,
     label: PropTypes.string,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
+    loading: PropTypes.bool,
 };
 
 Button.defaultProps = {
